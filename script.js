@@ -1,6 +1,7 @@
 class WordleGame {
     constructor() {
-        this.solution = 'WORDS'; // Hard-coded solution
+        this.solution = 'PHOEBE'; // You can change this to any length
+        this.wordLength = this.solution.length;
         this.currentRow = 0;
         this.currentTile = 0;
         this.gameOver = false;
@@ -11,6 +12,7 @@ class WordleGame {
     }
     
     init() {
+        this.buildBoard();
         this.setupEventListeners();
         this.focusGame();
     }
@@ -61,7 +63,7 @@ class WordleGame {
             this.submitGuess();
         } else if (key === 'BACKSPACE') {
             this.deleteLetter();
-        } else if (this.isValidLetter(key) && this.currentTile < 5) {
+        } else if (this.isValidLetter(key) && this.currentTile < this.wordLength) {
             this.addLetter(key);
         }
     }
@@ -71,7 +73,7 @@ class WordleGame {
     }
     
     addLetter(letter) {
-        if (this.currentTile < 5) {
+        if (this.currentTile < this.wordLength) {
             const tile = this.getTile(this.currentRow, this.currentTile);
             tile.textContent = letter;
             tile.classList.add('filled');
@@ -91,7 +93,7 @@ class WordleGame {
     }
     
     submitGuess() {
-        if (this.currentGuess.length < 5) {
+        if (this.currentGuess.length < this.wordLength) {
             this.showMessage('Not enough letters');
             return;
         }
@@ -116,9 +118,9 @@ class WordleGame {
     }
     
     isValidWord(word) {
-        // For simplicity, accept any 5-letter combination
+        // For simplicity, accept any combination matching the solution length
         // In a real implementation, you'd check against a word list
-        return word.length === 5 && /^[A-Z]+$/.test(word);
+        return word.length === this.wordLength && /^[A-Z]+$/.test(word);
     }
     
     evaluateGuess() {
@@ -129,7 +131,7 @@ class WordleGame {
         const guessLetters = guess.split('');
         
         // First pass: mark correct letters
-        for (let i = 0; i < 5; i++) {
+        for (let i = 0; i < this.wordLength; i++) {
             if (guessLetters[i] === solutionLetters[i]) {
                 result[i] = 'correct';
                 solutionLetters[i] = null; // Mark as used
@@ -137,7 +139,7 @@ class WordleGame {
         }
         
         // Second pass: mark present letters
-        for (let i = 0; i < 5; i++) {
+        for (let i = 0; i < this.wordLength; i++) {
             if (result[i]) continue; // Already marked as correct
             
             const letter = guessLetters[i];
@@ -156,7 +158,7 @@ class WordleGame {
     }
     
     updateTiles(result) {
-        for (let i = 0; i < 5; i++) {
+        for (let i = 0; i < this.wordLength; i++) {
             const tile = this.getTile(this.currentRow, i);
             const state = result[i];
             
@@ -167,7 +169,7 @@ class WordleGame {
     }
     
     updateKeyboard(guess, result) {
-        for (let i = 0; i < 5; i++) {
+        for (let i = 0; i < this.wordLength; i++) {
             const letter = guess[i];
             const state = result[i];
             const key = document.querySelector(`[data-key="${letter}"]`);
@@ -200,19 +202,15 @@ class WordleGame {
             
             if (won) {
                 modalTitle.textContent = 'Congratulations!';
-                modalMessage.textContent = 'You guessed the word!';
-                // Add a celebratory image placeholder
+                modalMessage.textContent = 'Phoebe Hunter Fredner (b. 2025-09-22)';
                 modalImage.innerHTML = `
-                    <div style="font-size: 48px; color: #538d4e;">🎉</div>
-                    <p style="margin-top: 10px; color: #818384;">Add your celebration image here!</p>
+                    <img src="phoebe.jpeg" alt="Phoebe" />
                 `;
             } else {
-                modalTitle.textContent = 'Game Over';
-                modalMessage.textContent = 'The answer was:';
-                // Add a "better luck next time" image placeholder
+                modalTitle.textContent = 'Good try!';
+                modalMessage.textContent = 'Phoebe Hunter Fredner (b. 2025-09-22)';
                 modalImage.innerHTML = `
-                    <div style="font-size: 48px; color: #b59f3b;">📚</div>
-                    <p style="margin-top: 10px; color: #818384;">Add an image related to the answer here!</p>
+                    <img src="phoebe.jpeg" alt="Phoebe" />
                 `;
             }
             
@@ -230,13 +228,14 @@ class WordleGame {
             top: 100px;
             left: 50%;
             transform: translateX(-50%);
-            background-color: #121213;
-            color: #ffffff;
+            background-color: #ffffff;
+            color: #1a1a1b;
             padding: 10px 20px;
             border-radius: 4px;
-            border: 1px solid #3a3a3c;
+            border: 1px solid #d3d6da;
             z-index: 1000;
             font-weight: bold;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
         `;
         
         document.body.appendChild(messageEl);
@@ -253,11 +252,9 @@ class WordleGame {
         this.currentGuess = '';
         this.guesses = [];
         
-        // Clear all tiles
-        document.querySelectorAll('.tile').forEach(tile => {
-            tile.textContent = '';
-            tile.classList.remove('filled', 'correct', 'present', 'absent', 'reveal');
-        });
+        // Rebuild the board in case word length changed
+        this.clearBoard();
+        this.buildBoard();
         
         // Clear keyboard states
         document.querySelectorAll('.key').forEach(key => {
@@ -289,3 +286,29 @@ document.addEventListener('keydown', (e) => {
         e.preventDefault();
     }
 });
+
+// Dynamic board helpers
+WordleGame.prototype.buildBoard = function() {
+    const board = document.getElementById('game-board');
+    if (!board) return;
+    board.innerHTML = '';
+    const rows = 6; // keep 6 attempts
+    for (let r = 0; r < rows; r++) {
+        const row = document.createElement('div');
+        row.className = 'row';
+        row.dataset.row = String(r);
+        row.style.setProperty('--cols', this.wordLength);
+        for (let c = 0; c < this.wordLength; c++) {
+            const tile = document.createElement('div');
+            tile.className = 'tile';
+            tile.dataset.col = String(c);
+            row.appendChild(tile);
+        }
+        board.appendChild(row);
+    }
+};
+
+WordleGame.prototype.clearBoard = function() {
+    const board = document.getElementById('game-board');
+    if (board) board.innerHTML = '';
+};

@@ -1,63 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Name Game - Wordle Clone</title>
+    <title>🐣 Name Game</title>
     <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
     <div class="game-container">
         <header>
-            <h1>Name Game</h1>
+            <h1>🐣 Name Game</h1>
         </header>
-        
+
+        <section class="game-intro">
+            <ul class="color-key">
+                <li><span class="swatch swatch-correct"></span> correct letter in right spot</li>
+                <li><span class="swatch swatch-present"></span> correct letter in wrong spot</li>
+                <li><span class="swatch swatch-absent"></span> letter not in the name</li>
+            </ul>
+        </section>
+
         <main>
-            <div class="game-board">
-                <div class="row" data-row="0">
-                    <div class="tile" data-col="0"></div>
-                    <div class="tile" data-col="1"></div>
-                    <div class="tile" data-col="2"></div>
-                    <div class="tile" data-col="3"></div>
-                    <div class="tile" data-col="4"></div>
-                </div>
-                <div class="row" data-row="1">
-                    <div class="tile" data-col="0"></div>
-                    <div class="tile" data-col="1"></div>
-                    <div class="tile" data-col="2"></div>
-                    <div class="tile" data-col="3"></div>
-                    <div class="tile" data-col="4"></div>
-                </div>
-                <div class="row" data-row="2">
-                    <div class="tile" data-col="0"></div>
-                    <div class="tile" data-col="1"></div>
-                    <div class="tile" data-col="2"></div>
-                    <div class="tile" data-col="3"></div>
-                    <div class="tile" data-col="4"></div>
-                </div>
-                <div class="row" data-row="3">
-                    <div class="tile" data-col="0"></div>
-                    <div class="tile" data-col="1"></div>
-                    <div class="tile" data-col="2"></div>
-                    <div class="tile" data-col="3"></div>
-                    <div class="tile" data-col="4"></div>
-                </div>
-                <div class="row" data-row="4">
-                    <div class="tile" data-col="0"></div>
-                    <div class="tile" data-col="1"></div>
-                    <div class="tile" data-col="2"></div>
-                    <div class="tile" data-col="3"></div>
-                    <div class="tile" data-col="4"></div>
-                </div>
-                <div class="row" data-row="5">
-                    <div class="tile" data-col="0"></div>
-                    <div class="tile" data-col="1"></div>
-                    <div class="tile" data-col="2"></div>
-                    <div class="tile" data-col="3"></div>
-                    <div class="tile" data-col="4"></div>
-                </div>
-            </div>
-            
+            <div class="game-board" id="game-board"></div>
+
             <div class="keyboard">
                 <div class="keyboard-row">
                     <button class="key" data-key="Q">Q</button>
@@ -96,7 +63,7 @@
             </div>
         </main>
     </div>
-    
+
     <!-- Game Result Modal -->
     <div id="game-modal" class="modal">
         <div class="modal-content">
@@ -108,14 +75,15 @@
                     <!-- Space for picture will be added here -->
                 </div>
                 <p id="modal-message">The answer was:</p>
-                <p id="modal-answer" class="answer-text">WORDS</p>
+                <p id="modal-answer" class="answer-text">PHOEBE</p>
             </div>
             <div class="modal-footer">
                 <button id="play-again-btn" class="play-again-btn">Play Again</button>
             </div>
         </div>
     </div>
-    
+
     <script src="script.js"></script>
 </body>
+
 </html>
