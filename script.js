@@ -107,9 +107,9 @@ class WordleGame {
         this.evaluateGuess();
         
         if (this.currentGuess === this.solution) {
-            this.endGame(true);
+            this.endGame();
         } else if (this.currentRow === 5) {
-            this.endGame(false);
+            this.endGame();
         } else {
             this.currentRow++;
             this.currentTile = 0;
@@ -190,31 +190,23 @@ class WordleGame {
         return document.querySelector(`[data-row="${row}"] [data-col="${col}"]`);
     }
     
-    endGame(won) {
+    endGame() {
         this.gameOver = true;
-        
+
         setTimeout(() => {
             const modal = document.getElementById('game-modal');
             const modalTitle = document.getElementById('modal-title');
             const modalMessage = document.getElementById('modal-message');
             const modalAnswer = document.getElementById('modal-answer');
             const modalImage = document.getElementById('modal-image');
-            
-            if (won) {
-                modalTitle.textContent = 'Congratulations!';
-                modalMessage.textContent = 'Phoebe Hunter Fredner (b. 2025-09-22)';
-                modalImage.innerHTML = `
-                    <img src="phoebe.jpeg" alt="Phoebe" />
-                `;
-            } else {
-                modalTitle.textContent = 'Good try!';
-                modalMessage.textContent = 'Phoebe Hunter Fredner (b. 2025-09-22)';
-                modalImage.innerHTML = `
-                    <img src="phoebe.jpeg" alt="Phoebe" />
-                `;
-            }
-            
+
+            modalTitle.textContent = 'Thanks for playing!';
             modalAnswer.textContent = this.solution;
+            modalMessage.textContent = 'Phoebe Hunter Fredner\nb. 2025-09-22. 2.2kg. 45.5cm.';
+            modalImage.innerHTML = `
+                <img src="phoebe.jpeg" alt="Phoebe" />
+            `;
+
             modal.style.display = 'block';
         }, 1500);
     }

@@ -18,9 +18,9 @@ body {
 
 :root {
     --tile-size: clamp(44px, 12vw, 62px);
-    --key-width: clamp(36px, 8vw, 43px);
-    --key-height: clamp(46px, 9vw, 58px);
-    --key-large-width: clamp(55px, 12vw, 65px);
+    --key-width: clamp(26px, 7vw, 43px);
+    --key-height: clamp(42px, 8vw, 58px);
+    --key-large-width: clamp(42px, 10vw, 65px);
 }
 
 .game-container {
@@ -167,7 +167,7 @@ header h1 {
     display: flex;
     justify-content: center;
     margin-bottom: clamp(6px, 1.8vw, 10px);
-    gap: clamp(4px, 1.5vw, 8px);
+    gap: clamp(2px, 1.3vw, 8px);
 }
 
 .key {
@@ -177,7 +177,7 @@ header h1 {
     border-radius: 4px;
     background-color: #d3d6da;
     color: #1a1a1b;
-    font-size: clamp(12px, 2.8vw, 14px);
+    font-size: clamp(11px, 2.8vw, 14px);
     font-weight: bold;
     cursor: pointer;
     display: flex;
@@ -254,6 +254,10 @@ header h1 {
     padding: 20px 24px;
     text-align: center;
     color: #1a1a1b;
+}
+
+#modal-message {
+    white-space: pre-line;
 }
 
 .modal-image {
